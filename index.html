@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro Image Resizer | Free Online Tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6C63FF;
+            --secondary: #4D44DB;
+            --accent: #FF6584;
+            --light: #F8F9FA;
+            --dark: #343A40;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            animation: fadeIn 0.6s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .logo {
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .header-text {
+            flex: 1;
+        }
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 2px;
+        }
+        header p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+        .ad-banner {
+            background: #f1f1f1;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .main-content {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        .upload-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        .upload-section:hover {
+            transform: translateY(-5px);
+        }
+        .upload-area {
+            border: 2px dashed var(--primary);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .upload-area:hover {
+            background: rgba(108, 99, 255, 0.05);
+            border-color: var(--secondary);
+        }
+        .upload-area i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        .upload-area p {
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+        .upload-area span {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        #file-input {
+            display: none;
+        }
+        #image-preview {
+            max-width: 100%;
+            max-height: 200px;
+            margin-top: 20px;
+            border-radius: 8px;
+            display: none;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        .controls-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        .control-group {
+            margin-bottom: 20px;
+        }
+        .control-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        .control-group input, .control-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        .control-group input:focus, .control-group select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+            outline: none;
+        }
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            width: 100%;
+            text-align: center;
+        }
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.3);
+        }
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+        .btn-secondary:hover {
+            background: rgba(108, 99, 255, 0.1);
+        }
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        .btn-group .btn {
+            flex: 1;
+        }
+        .ad-mobile {
+            display: none;
+            background: #f1f1f1;
+            padding: 15px;
+            text-align: center;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+        @media (max-width: 768px) {
+            .ad-mobile {
+                display: block;
+            }
+            header {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+            .logo {
+                margin-bottom: 10px;
+            }
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #6c757d;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+        }
+        .dimension-inputs {
+            display: flex;
+            gap: 15px;
+        }
+        .dimension-inputs .control-group {
+            flex: 1;
+        }
+        .file-info {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="your-logo.png" alt="Logo">
+            </div>
+            <div class="header-text">
+                <h1>Image Resizer Pro</h1>
+                <p>Resize your images online for free with high quality</p>
+            </div>
+        </header>
+
+        <!-- Desktop Ad Banner -->
+        <div class="ad-banner">
+            <!-- Google AdSense -->
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID" crossorigin="anonymous"></script>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                 data-ad-slot="YOUR_AD_SLOT"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+        <div class="main-content">
+            <div class="upload-section">
+                <div class="upload-area" id="upload-area">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Drag & drop your image here</p>
+                    <span>or click to browse files</span>
+                    <input type="file" id="file-input" accept="image/*">
+                    <img id="image-preview" alt="Preview">
+                </div>
+                <div class="file-info" id="file-info"></div>
+            </div>
+
+            <div class="controls-section">
+                <div class="control-group">
+                    <label for="resize-method">Resize Method</label>
+                    <select id="resize-method">
+                        <option value="percentage">By Percentage</option>
+                        <option value="dimensions">By Dimensions</option>
+                        <option value="custom">Custom Size</option>
+                    </select>
+                </div>
+
+                <div class="control-group" id="percentage-control">
+                    <label for="percentage">Resize Percentage</label>
+                    <input type="number" id="percentage" min="1" max="500" value="100">
+                </div>
+
+                <div class="control-group" id="dimensions-control" style="display: none;">
+                    <label>Dimensions (px)</label>
+                    <div class="dimension-inputs">
+                        <div class="control-group">
+                            <input type="number" id="width" min="1" placeholder="Width">
+                        </div>
+                        <div class="control-group">
+                            <input type="number" id="height" min="1" placeholder="Height">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group" id="custom-control" style="display: none;">
+                    <label for="preset">Preset Sizes</label>
+                    <select id="preset">
+                        <option value="instagram">Instagram Post (1080x1080)</option>
+                        <option value="facebook">Facebook Cover (820x312)</option>
+                        <option value="twitter">Twitter Header (1500x500)</option>
+                        <option value="youtube">YouTube Thumbnail (1280x720)</option>
+                    </select>
+                </div>
+
+                <div class="btn-group">
+                    <button id="resize-btn" class="btn">
+                        <i class="fas fa-expand-arrows-alt"></i> Resize Now
+                    </button>
+                    <button id="download-btn" class="btn btn-secondary" style="display: none;">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Ad Banner with YOUR AdMob Unit ID -->
+        <div class="ad-mobile">
+            <script>
+                if (window.innerWidth <= 768) {
+                    document.write(`
+                        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-app-pub-6042013841951574" crossorigin="anonymous"><\/script>
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="ca-app-pub-6042013841951574"
+                             data-ad-slot="2158857496"
+                             data-ad-format="auto"
+                             data-full-width-responsive="true"></ins>
+                        <script>(adsbygoogle = window.adsbygoogle || []).push({});<\/script>
+                    `);
+                }
+            </script>
+        </div>
+
+        <footer>
+            <p>© 2024 Image Resizer Pro | Free Online Tool | Privacy Policy</p>
+        </footer>
+    </div>
+
+    <script>
+        // DOM Elements
+        const uploadArea = document.getElementById('upload-area');
+        const fileInput = document.getElementById('file-input');
+        const imagePreview = document.getElementById('image-preview');
+        const fileInfo = document.getElementById('file-info');
+        const resizeMethod = document.getElementById('resize-method');
+        const percentageControl = document.getElementById('percentage-control');
+        const dimensionsControl = document.getElementById('dimensions-control');
+        const customControl = document.getElementById('custom-control');
+        const presetSelect = document.getElementById('preset');
+        const resizeBtn = document.getElementById('resize-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        
+        let originalImage = null;
+        let originalFile = null;
+
+        // Event Listeners
+        uploadArea.addEventListener('click', () => fileInput.click());
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = 'var(--secondary)';
+            uploadArea.style.background = 'rgba(108, 99, 255, 0.1)';
+        });
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.borderColor = 'var(--primary)';
+            uploadArea.style.background = '';
+        });
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = 'var(--primary)';
+            uploadArea.style.background = '';
+            
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                handleImageUpload(e.dataTransfer.files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                handleImageUpload(e.target.files[0]);
+            }
+        });
+
+        resizeMethod.addEventListener('change', updateControls);
+        presetSelect.addEventListener('change', applyPreset);
+        resizeBtn.addEventListener('click', resizeImage);
+        
+        // Functions
+        function handleImageUpload(file) {
+            originalFile = file;
+            
+            // Show file info
+            fileInfo.innerHTML = `
+                <strong>${file.name}</strong> (${formatBytes(file.size)})
+                <br>Type: ${file.type}
+            `;
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                originalImage = new Image();
+                originalImage.src = e.target.result;
+                originalImage.onload = () => {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    
+                    // Set default dimensions
+                    document.getElementById('width').value = originalImage.width;
+                    document.getElementById('height').value = originalImage.height;
+                    
+                    // Show download button if it was hidden
+                    downloadBtn.style.display = 'none';
+                };
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function updateControls() {
+            const method = resizeMethod.value;
+            
+            percentageControl.style.display = method === 'percentage' ? 'block' : 'none';
+            dimensionsControl.style.display = method === 'dimensions' ? 'block' : 'none';
+            customControl.style.display = method === 'custom' ? 'block' : 'none';
+        }
+
+        function applyPreset() {
+            const preset = presetSelect.value;
+            let width, height;
+            
+            switch(preset) {
+                case 'instagram':
+                    width = 1080;
+                    height = 1080;
+                    break;
+                case 'facebook':
+                    width = 820;
+                    height = 312;
+                    break;
+                case 'twitter':
+                    width = 1500;
+                    height = 500;
+                    break;
+                case 'youtube':
+                    width = 1280;
+                    height = 720;
+                    break;
+                default:
+                    width = originalImage.width;
+                    height = originalImage.height;
+            }
+            
+            document.getElementById('width').value = width;
+            document.getElementById('height').value = height;
+        }
+
+        function resizeImage() {
+            if (!originalImage) {
+                alert('Please upload an image first!');
+                return;
+            }
+
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            let newWidth, newHeight;
+
+            switch(resizeMethod.value) {
+                case 'percentage':
+                    const percentage = parseInt(document.getElementById('percentage').value) / 100;
+                    newWidth = originalImage.width * percentage;
+                    newHeight = originalImage.height * percentage;
+                    break;
+                    
+                case 'dimensions':
+                    newWidth = parseInt(document.getElementById('width').value);
+                    newHeight = parseInt(document.getElementById('height').value);
+                    break;
+                    
+                case 'custom':
+                    newWidth = parseInt(document.getElementById('width').value);
+                    newHeight = parseInt(document.getElementById('height').value);
+                    break;
+            }
+
+            canvas.width = newWidth;
+            canvas.height = newHeight;
+            ctx.drawImage(originalImage, 0, 0, newWidth, newHeight);
+
+            imagePreview.src = canvas.toDataURL('image/jpeg', 0.9);
+            
+            // Update download button
+            downloadBtn.style.display = 'inline-block';
+            downloadBtn.onclick = () => {
+                const link = document.createElement('a');
+                link.download = getOutputFilename(originalFile.name);
+                link.href = canvas.toDataURL('image/jpeg', 0.9);
+                link.click();
+            };
+        }
+
+        function getOutputFilename(originalName) {
+            const dotIndex = originalName.lastIndexOf('.');
+            const nameWithoutExt = dotIndex !== -1 ? originalName.substring(0, dotIndex) : originalName;
+            const ext = dotIndex !== -1 ? originalName.substring(dotIndex) : '.jpg';
+            
+            let suffix = '';
+            switch(resizeMethod.value) {
+                case 'percentage':
+                    suffix = `_${document.getElementById('percentage').value}percent`;
+                    break;
+                case 'dimensions':
+                    suffix = `_${document.getElementById('width').value}x${document.getElementById('height').value}`;
+                    break;
+                case 'custom':
+                    suffix = `_${presetSelect.options[presetSelect.selectedIndex].text.replace(/\s+/g, '-')}`;
+                    break;
+            }
+            
+            return `${nameWithoutExt}${suffix}${ext}`;
+        }
+
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+    </script>
+</body>
+</html>
